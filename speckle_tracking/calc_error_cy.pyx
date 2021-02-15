@@ -4,7 +4,6 @@ import tqdm
 from libc.math cimport ceil, floor, sqrt, exp, pi
 from cython.parallel import prange
 cimport openmp
-from . import utils_opencl
 
 ctypedef fused float_t:
     np.float64_t
@@ -179,21 +178,12 @@ def calc_error(data, mask, W, dij_n, O, pixel_map, n0, m0, ls,
         data_1d = True
     forward = -np.ones(data.shape, dtype=np.float32)
     
-    #sig = np.std(data, axis=0)
-    #sig[sig <= 0] = 1
     for n in tqdm.trange(data.shape[0], desc='calculating errors', disable=not verbose):
         # define the coordinate mapping 
         ss = pixel_map[0] - dij_n[n, 0] + n0
         fs = pixel_map[1] - dij_n[n, 1] + m0
         
-        if subpixel: 
-            #I0 = W * bilinear_interpolation_array(I, ss, fs, fill=-1, invalid=-1)
-            #I0 = I0[mask]
-            I0 = W * utils_opencl.bilinear_interpolation_array(O, ss, fs)
-        
-        else :
-            # round to int
-            I0 = O[np.rint(ss).astype(np.int), np.rint(ss).astype(np.int)] * W
+        I0 = O[np.rint(ss).astype(np.int), np.rint(ss).astype(np.int)] * W
         
         d  = data[n]
         m  = (I0>0)*(d>0)*mask

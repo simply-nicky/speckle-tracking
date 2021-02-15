@@ -1,14 +1,13 @@
-name: test3
+name: speckle-tracking
 channels:
   - conda-forge
   - defaults
 dependencies:
+  - cython
   - pyqt
   - pyqtgraph
   - h5py
   - scipy
   - numpy
   - tqdm
-  - pocl
-  - pyopencl
   - pip

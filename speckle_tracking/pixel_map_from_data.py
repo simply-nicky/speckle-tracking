@@ -1,10 +1,10 @@
 import numpy as np
 import tqdm
 
-from .make_object_map import make_object_map
-from .update_pixel_map import update_pixel_map
-from .update_translations import update_translations
-from .calc_error import calc_error
+from .make_object_map_cy import make_object_map
+from .update_pixel_map_cy import update_pixel_map
+from .update_translations_cy import update_translations
+from .calc_error_cy import calc_error
 
 # it would be great to generalise this so that 
 # no initial estimate of the positions is required
@@ -85,8 +85,6 @@ def pixel_map_from_data_old(data, xy, W = None, mask = None, u = None,
     filters = np.linspace(filter, 0, maxiters)
     it = tqdm.trange(maxiters, desc='updating pixel and object maps')
     for j in it:
-        data = flux_correction(data, W, O, n0, m0, u, xy, mask)
-        
         O, n0, m0 = make_object_map(data, mask, W, xy, u, subpixel=True)
             
         u, res = update_pixel_map(
@@ -204,19 +202,3 @@ def pixel_map_from_data(data, xy, W = None, mask = None, u = None,
         
     return u, {'object_map': O, 'n0': n0, 'm0': m0, 'pix_positions': xy, 
                'us': us}
-
-from .calc_error import bilinear_interpolation_array
-def flux_correction(data, W, O, n0, m0, u1, dij_n, mask):
-    cs    = [] 
-    for n in tqdm.trange(data.shape[0], desc='calculating errors'):
-        # define the coordinate mapping and round to int
-        ss = u1[0] - dij_n[n, 0] + n0
-        fs = u1[1] - dij_n[n, 1] + m0
-        #
-        I0 = W * bilinear_interpolation_array(O, ss, fs, fill=-1, invalid=-1)
-        #
-        m = I0>0
-        
-        c = np.sum(mask * m * I0 * data[n]) / np.sum(mask * m * data[n]**2)
-        cs.append(c)
-    return (data.T * np.array(cs)).T.astype(np.float32)

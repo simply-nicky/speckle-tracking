@@ -2,9 +2,9 @@ import numpy as np
 
 from .fit_thon_rings import fit_thon_rings
 from .fit_defocus_registration import fit_defocus_registration
-from .make_object_map import make_object_map
+from .make_object_map_cy import make_object_map
 from .make_pixel_map import make_pixel_map
-from .calc_error import calc_error
+from .calc_error_cy import calc_error
 from .make_pixel_translations import make_pixel_translations
 
 

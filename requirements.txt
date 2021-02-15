@@ -1,9 +1,7 @@
+Cython>=0.29.21
+h5py>=2.10.0
+numpy>=1.19.0
+scipy>=1.5.2
 pyqt
 pyqtgraph
-h5py
-scipy
-numpy
 tqdm
-pocl
-pyopencl
-glob
