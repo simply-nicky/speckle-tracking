@@ -257,7 +257,7 @@ def fit_theta_scale(im, mask):
         
         r = np.sqrt(np.sum(np.dot(D, np.dot(R, ij)**2), axis=0).reshape(shape))
         im_rav = radial_symetry(im, r, mask=mask)
-        im2    = im_rav[r.astype(np.int)].reshape(shape)
+        im2    = im_rav[r.astype(int)].reshape(shape)
         return im2, r, im_rav
     
     def fun(t,d):

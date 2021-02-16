@@ -132,8 +132,8 @@ def make_O_subregion(dzx, dzy, roi, z, x_pixel_size, y_pixel_size,
         m.fill(False)
         m[i_min:i_max, j_min:j_max] = mask[i_min:i_max, j_min:j_max]
         # define the coordinate mapping and round to int
-        ss = np.rint((ij[0][m] - dij_n[n, 0] + n0)).astype(np.int) - io_min
-        fs = np.rint((ij[1][m] - dij_n[n, 1] + m0)).astype(np.int) - jo_min
+        ss = np.rint((ij[0][m] - dij_n[n, 0] + n0)).astype(int) - io_min
+        fs = np.rint((ij[1][m] - dij_n[n, 1] + m0)).astype(int) - jo_min
         #
         I[      ss, fs] += (W*data[n])[m]
         overlap[ss, fs] += WW[m]

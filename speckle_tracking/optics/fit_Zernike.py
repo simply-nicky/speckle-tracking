@@ -114,7 +114,7 @@ def make_Zernike_polynomial_cartesian(n, m, order = None):
     if order is None :
         order = n + 1
     
-    mat = np.zeros((order, order), dtype=np.int)
+    mat = np.zeros((order, order), dtype=int)
     
     for k in range((n-m)//2 + 1):
         a = (-1)**k * fac(n-k) / (fac(k) * fac((n+m)/2 - k) * fac( (n-m)/2 - k))

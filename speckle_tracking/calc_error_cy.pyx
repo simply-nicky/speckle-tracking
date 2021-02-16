@@ -183,7 +183,7 @@ def calc_error(data, mask, W, dij_n, O, pixel_map, n0, m0, ls,
         ss = pixel_map[0] - dij_n[n, 0] + n0
         fs = pixel_map[1] - dij_n[n, 1] + m0
         
-        I0 = O[np.rint(ss).astype(np.int), np.rint(ss).astype(np.int)] * W
+        I0 = O[np.rint(ss).astype(int), np.rint(ss).astype(int)] * W
         
         d  = data[n]
         m  = (I0>0)*(d>0)*mask
